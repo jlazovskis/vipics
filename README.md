@@ -16,5 +16,5 @@ This will be where all the information will be kept about the project.
 
 ### changelog
 
-Nov 28 2018 Initial commit 
+Nov 28 2018 Initial commit<br>
 Jan 21 2019 Created new Unity project
