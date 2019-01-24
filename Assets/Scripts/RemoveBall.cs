@@ -10,16 +10,23 @@ public class RemoveBall : MonoBehaviour {
     float distance;
 	
 	// Update is called once per frame
-	void Update () {
-		if (OVRInput.GetDown(OVRInput.RawButton.A)) {
-            distance = Vector3.Distance(rightHandAnchor.transform.position, this.transform.position);
-            if (distance <= threshold) {
-                Destruction();
-            }
+void Update () {
+	if (OVRInput.GetDown(OVRInput.RawButton.X)) {
+        distance = Vector3.Distance(leftHandAnchor.transform.position, this.transform.position);
+        if (distance <= threshold) {
+            Destruction();
         }
 	}
-	
-	void Destruction() {
-        Destroy(this.gameObject);
+	if (OVRInput.GetDown(OVRInput.RawButton.A)) {
+        distance = Vector3.Distance(rightHandAnchor.transform.position, this.transform.position);
+        if (distance <= threshold) {
+            Destruction();
+        }
     }
+}
+	
+void Destruction() {
+    Destroy(this.gameObject);
+}
+
 }
