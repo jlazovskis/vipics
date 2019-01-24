@@ -456,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHandAnchor: {fileID: 512784708}
   rightHandAnchor: {fileID: 1572303302}
-  ballPrefab: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
+  ballPrefab: {fileID: 2002206355}
 --- !u!4 &1331043670
 Transform:
   m_ObjectHideFlags: 0
@@ -570,15 +570,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.19999999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
       propertyPath: m_LocalRotation.x
@@ -613,6 +613,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
   m_IsPrefabAsset: 0
+--- !u!4 &2002206355 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1992640518}
 --- !u!136 &2094005042 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 136973557291618622, guid: efe266538a8dcda4dbd04fbff7997053,
