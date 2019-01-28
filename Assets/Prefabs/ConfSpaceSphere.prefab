@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4903680410411260}
-  - component: {fileID: 114619375933157446}
   - component: {fileID: 33936864494511094}
   - component: {fileID: 65831705941665006}
   - component: {fileID: 23521210973760252}
@@ -130,17 +129,3 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
---- !u!114 &114619375933157446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1497766408497028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ade6f9e089b6448a630a36c4064a4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftHandAnchor: {fileID: 0}
-  rightHandAnchor: {fileID: 0}
-  threshold: 0.03

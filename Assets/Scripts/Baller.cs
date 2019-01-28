@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddRemoveBall : MonoBehaviour {
+public class Baller : MonoBehaviour {
     public GameObject leftHandAnchor;
     public GameObject rightHandAnchor;
-	public Transform leftHandAnchor;
-    public Transform rightHandAnchor;
-    public Transform ballPrefab;
-	
-	public float threshold = 0.03f;
-    float distance;
-	
+    public GameObject ballPrefab;
+	public float threshold = 0.03f;	
 	private GameObject nearBall;
 	
 	// Update is called once per frame
@@ -29,10 +24,10 @@ public class AddRemoveBall : MonoBehaviour {
         }
 		
 		if (OVRInput.GetDown(OVRInput.RawButton.A)) {
-			hits = Physics.SphereCastAll(rightHandAnchor.transform.position, threshold, rightHandAnchor.transform.forward, 0f);
-			if (hits.Length > 0){
-				for (int i = 0; i < hits.Length; i++){
-					nearBall = hits[i].transform.GameObject;
+			if (rightHandAnchor != null) {
+				RaycastHit[] hits = Physics.SphereCastAll(rightHandAnchor.transform.position, threshold, rightHandAnchor.transform.forward, 0f);
+				foreach (RaycastHit ball in hits){
+					nearBall = ball.transform.gameObject;
 					Destroy(nearBall);
 				}
 			}
