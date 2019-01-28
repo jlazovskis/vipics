@@ -3,9 +3,11 @@
 \usepackage{amssymb,amsmath,hyperref,fullpage}
 \pagestyle{empty}
 
+\newcommand\R{\mathbf{R}}
+
 \begin{document}
 
-\def\vspacing{\vspace{.5cm}}
+\def\vspacing{\vspace{.6cm}}
 
 \noindent
 
@@ -27,7 +29,7 @@ Spring 2019 project
 \noindent
 \textbf{Structure.}
 \begin{itemize}
-\item There will be weekly meetings with assigned readings / problems / coding.
+\item There will be weekly meetings with assigned readings / problems / coding. 
 \item You will recieve a letter grade based on your participation.
 \end{itemize}
 
@@ -52,25 +54,48 @@ Spring 2019 project
 \item Hatcher: Pages xii, 5-6, 25-27
 \end{itemize}
 
-%\vspacing
-%\noindent
-%\textbf{Goals.}  
-%\begin{itemize}
-%\item achieve primary, secondary, tertiary goals, adjusting as necessary
-%\item create poster describing the semester's work
-%\end{itemize}
+\vspacing
+\noindent
+\textbf{Goals (non-math).}  Primary, secondary, and tertiary, all within a Unity scene.
+\begin{enumerate}
+\item[P1.] Create a scene where, with the Oculus controls, the user can
+\begin{enumerate}
+\item add and delete points in $\R^3$,
+\item ajust the real parameter $r \in \R_{\geqslant 0}$ with one of the joysticks.
+\end{enumerate}
+\item[P2.] Visualize the Vietoris--Rips complex from the points in the scene and the radius, which changes as the user moves the points and adjusts the radius.
+\item[P3.] Create a poster describing the semester's work.
+\item[S1.] Pair points together to describe straight-line paths in space, and let the user adjust position along the paths with the other joystick. The VR complex is visible and responds to user changes.
+\item[T1.] Adjust the visualizations for the \v Cech complex instead. Allow the user to switch between them.
+\item[T2.] Visualize the resulting stratified two-dimensional space.
+\end{enumerate}
+
+\vspacing
+
+\noindent
+\textbf{Goals (math).}
+\begin{enumerate}
+\item[P1.] Understand, work with, and compute
+\begin{enumerate}
+\item simplicial homology,
+\item the topology of and distances in configuration space.
+\end{enumerate}
+\item[S1.] Given $P\subseteq \R^N$ of size $n$, describe a formula that gives $r\in \R_{\geqslant 0}$ at which the $(n-1)$-simplex of the \v Cech construction is born.
+\item[T1.] Understand, work with, and compute distances between persistence diagrams.
+\end{enumerate}
 
 \vspacing
 
 \noindent
 \textbf{Sources.} Some, not all.
 \begin{itemize}
-\item Edelsbrunner, Harer (2009). \textit{Computational Topology: An Introduction.}
-\item Carlsson (2009). \textit{Topology and data.}
-\item Topaz, Ziegelmeier, Halverson (2015). \textit{Topological Data Analysis of Biological Aggregation Models.}
 \item Aguilar, Gitler, Prieto (2002). \textit{Algebraic Topology from a Homotopical Viewpoint.}
-\item May (1999). \textit{A Concise Course in Algebraic Topology.}
+\item Carlsson (2009). \textit{Topology and data.}
+\item Chan, Carlsson, Rabadan (2013). \textit{Topology of viral evolution.}
+\item Edelsbrunner, Harer (2009). \textit{Computational Topology: An Introduction.}
 \item Hatcher (2015). \textit{Algebraic Topology.}
+\item May (1999). \textit{A Concise Course in Algebraic Topology.}
+\item Topaz, Ziegelmeier, Halverson (2015). \textit{Topological Data Analysis of Biological Aggregation Models.}
 \end{itemize}
 
 \noindent
