@@ -365,11 +365,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efe266538a8dcda4dbd04fbff7997053, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &512784708 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1898614957700548, guid: efe266538a8dcda4dbd04fbff7997053,
-    type: 2}
-  m_PrefabInternal: {fileID: 486447747}
 --- !u!4 &512784710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4755890394075834, guid: efe266538a8dcda4dbd04fbff7997053,
@@ -435,7 +430,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1331043670}
   - component: {fileID: 1331043669}
-  - component: {fileID: 1331043671}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -454,9 +448,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90538b1183f73904d8470221b45939eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftHandAnchor: {fileID: 512784708}
-  rightHandAnchor: {fileID: 1572303302}
-  ballPrefab: {fileID: 2002206355}
+  leftHandAnchor: {fileID: 0}
+  rightHandAnchor: {fileID: 0}
+  ballPrefab: {fileID: 0}
 --- !u!4 &1331043670
 Transform:
   m_ObjectHideFlags: 0
@@ -470,28 +464,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1331043671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1331043668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ade6f9e089b6448a630a36c4064a4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftHandAnchor: {fileID: 512784710}
-  rightHandAnchor: {fileID: 1572303304}
-  threshold: 0.03
 --- !u!136 &1356855940 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 136974983857602472, guid: efe266538a8dcda4dbd04fbff7997053,
-    type: 2}
-  m_PrefabInternal: {fileID: 486447747}
---- !u!1 &1572303302 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1338024950312142, guid: efe266538a8dcda4dbd04fbff7997053,
     type: 2}
   m_PrefabInternal: {fileID: 486447747}
 --- !u!4 &1572303304 stripped
@@ -613,11 +588,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
   m_IsPrefabAsset: 0
---- !u!4 &2002206355 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4903680410411260, guid: 2ed6a86bab0e78a4785c2700ba330dfc,
-    type: 2}
-  m_PrefabInternal: {fileID: 1992640518}
 --- !u!136 &2094005042 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 136973557291618622, guid: efe266538a8dcda4dbd04fbff7997053,
