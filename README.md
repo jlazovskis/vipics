@@ -25,4 +25,4 @@ Jan 28 2019 Add / remove / move interactivity finished, though not optimized. Fi
     1. Log into the computer with the Oculus attached (by the door)<br>
     2. Open Unity, creating an account if necessary<br>
     3. Download this repository using `git pull` through the "Git Bash" program on the Desktop<br>
-    4. Open the project in Unity, start the scene, and add / remove / move points with the Oculus hand controls.
+    4. Open the project in Unity, start the scene, and add (B and Y) / remove (A and X) / move (grip / grab / side trigger) points with the Oculus hand controls.
