@@ -8,9 +8,15 @@ The goals of this project are:
 2. To visualize the Vietoris-Rips and Cech simplicial complex constructions from elements of Conf_n(R^3).
 3. To visualize how such paths produce persistent homology modules.
 
-## Spring 2019 MCL project
+## Spring 2019 MCL project weekly assignments
 
-This will be where all the information will be kept about the project.
+*Week of January 28:*
+1. Read Chapters III.1 and III.2 in Edelsrbunner and Here's "Computational Topology." [Link here](https://www.researchgate.net/publication/220692408_Computational_Topology_An_Introduction)
+2. Go to the MCL and:
+⋅⋅a. Log into the computer with the Oculus attached (by the door)
+⋅⋅b. Open Unity, creating an account if necessary
+⋅⋅c. Download this repository using `git pull` through the "Git Bash" program on the Desktop
+⋅⋅d. Open the project in Unity, start the scene, and add / remove / move points with the Oculus hand controls.
 
 ---
 
@@ -18,4 +24,5 @@ This will be where all the information will be kept about the project.
 
 Nov 28 2018 Initial commit<br>
 Jan 21 2019 Created new Unity project<br>
-Jan 23 2019 Basic scene with add /remove interactivty
+Jan 23 2019 Basic scene with add / remove interactivty<br>
+Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.
