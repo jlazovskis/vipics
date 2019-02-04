@@ -6,7 +6,8 @@ public class Baller : MonoBehaviour {
     public GameObject leftHandAnchor;
     public GameObject rightHandAnchor;
     public GameObject ballPrefab;
-	public float threshold = 0.03f;	
+	public float threshold = 0.03f;
+	private List<GameObject> BList = new List<GameObject>();
 	private GameObject nearBall;
 	private GameObject clone;
 	private Rigidbody rb;
@@ -17,15 +18,15 @@ public class Baller : MonoBehaviour {
 	void Update () {
 		int layerMask = 1 << 2;
 		layerMask = ~layerMask;
-
-        // Create
+        
+		// Create
         if (OVRInput.GetDown(OVRInput.RawButton.B)) {
             if (rightHandAnchor != null) {
                 GameObject clone = (GameObject)Instantiate(ballPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
 				clone.name = "clone" + num.ToString();
 				num++;
-				// BoxCollider bc = gameObject.AddComponent(typeof(BoxCollider)) as BoxCollider;
-				// Debug.Log("FIND: " + clone.GetComponent<BoxCollider>());
+				// Add new clone to list of balls
+				BList.Add(clone);
             }
         }
         if (OVRInput.GetDown(OVRInput.RawButton.Y)) {
@@ -33,7 +34,9 @@ public class Baller : MonoBehaviour {
 				GameObject clone = (GameObject)Instantiate(ballPrefab, leftHandAnchor.transform.position, leftHandAnchor.transform.rotation);
 				clone.name = "clone" + num.ToString();
 				num++;
-            }
+				// Add new clone to list of balls
+				BList.Add(clone);
+			}
         }
 		
 		if (OVRInput.GetDown(OVRInput.RawButton.A)) {
@@ -41,30 +44,14 @@ public class Baller : MonoBehaviour {
 				RaycastHit[] hits = Physics.SphereCastAll(rightHandAnchor.transform.position, threshold, rightHandAnchor.transform.forward, 0f);
 				foreach (RaycastHit ball in hits){
 					nearBall = ball.collider.gameObject;
-					// var list = GetComponents(typeof(Component));
-					 // for(int i = 0; i < list.Length; i++) {
-						// Debug.Log(list[i].name);
-					// }
 					Debug.Log("GONNA DESTROY: " + ball.collider.name);
-					// Debug.Log(GameObject.Find(nearBall.name));
-					// name = ball.transform.name;
-					// Destroy(GameObject.Find(ball.collider.name));
-					// if (nearBall.tag == "BALL") {
-						// Destroy(nearBall);
-					// if (gameObject != null) {
-						// Destroy(gameObject);
-					// }
-							// Debug.Log("Text: AFTER" + nearBall.tag);
+					// Remove clone from list of balls
+					BList.Remove(nearBall);
+					// Drop clone to bottom, make invisible
 					rb = nearBall.GetComponent<Rigidbody>();
 					rb.isKinematic = false;
 					rb.useGravity = true;
 					Destroy(nearBall.GetComponent<MeshRenderer>());
-					// Destroy(nearBall.GetComponent<OVRGrabbable>());
-					// Destroy(nearBall.gameObject);
-					// Destroy(ball.rigidbody);
-							// Destroy(ball.transform.gameObject);
-						// }
-					// }
 				}
 			}
 		}
@@ -74,6 +61,9 @@ public class Baller : MonoBehaviour {
 				foreach (RaycastHit ball in hits){
 					nearBall = ball.collider.gameObject;
 					Debug.Log("GONNA DESTROY: " + ball.collider.name);
+					// Remove clone from list of balls
+					BList.Remove(nearBall);
+					// Drop clone to bottom, make invisible					
 					rb = nearBall.GetComponent<Rigidbody>();
 					rb.isKinematic = false;
 					rb.useGravity = true;

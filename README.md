@@ -25,4 +25,14 @@ Jan 28 2019 Add / remove / move interactivity finished, though not optimized. Fi
     1. Log into the computer with the Oculus attached (by the door)<br>
     2. Open Unity, creating an account if necessary<br>
     3. Download this repository using `git clone` through the "Git Bash" program on the Desktop<br>
-    4. Open the project in Unity, start the scene, and add (B and Y) / remove (A and X) / move (grip / grab / side trigger) points with the Oculus hand controls.
+    4. Open the project in Unity, start the scene, and add (B and Y) / remove (A and X) / move (grip / grab / side trigger) points with the Oculus hand controls.<br>
+	
+*Week of February 4:*
+1. (A/S/V) At every B/Y click, generate another ball at the same spot. This ball:<br>
+    1. is slightly transparent, and<br>
+	2. will grow and shrink when right-hand joystick moves up/down. <br>
+2. (J) Create visual interface that allows user to show or hide these slightly transparent balls.<br>
+
+*Week of February 11:*
+1. (A/S/V) When two points are close enough, show edge between them.<br>
+2. (J) Create visual interface that allows user to show / hide edges.<br> 
