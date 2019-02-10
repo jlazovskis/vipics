@@ -6,10 +6,12 @@ public class Baller : MonoBehaviour {
     public GameObject leftHandAnchor;
     public GameObject rightHandAnchor;
     public GameObject ballPrefab;
+    public GameObject haloPrefab;
 	public float threshold = 0.03f;
 	private List<GameObject> BList = new List<GameObject>();
 	private GameObject nearBall;
 	private GameObject clone;
+	private GameObject halo;
 	private Rigidbody rb;
 	private string name;
 	static int num;
@@ -24,6 +26,8 @@ public class Baller : MonoBehaviour {
             if (rightHandAnchor != null) {
                 GameObject clone = (GameObject)Instantiate(ballPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
 				clone.name = "clone" + num.ToString();
+                GameObject halo = (GameObject)Instantiate(haloPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
+				halo.name = "halo" + num.ToString();				
 				num++;
 				// Add new clone to list of balls
 				BList.Add(clone);
