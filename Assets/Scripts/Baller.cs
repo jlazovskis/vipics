@@ -22,6 +22,15 @@ public class Baller : MonoBehaviour {
 		layerMask = ~layerMask;
         
 		// Create
+		
+	if(OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp))
+	{
+		  transform.localScale += Vector3(0.5,0.5,0.5);
+	}
+	if(OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown))
+	{
+		  transform.localScale -= Vector3(0.5,0.5,0.5);
+	}
         if (OVRInput.GetDown(OVRInput.RawButton.B)) {
             if (rightHandAnchor != null) {
                 GameObject clone = (GameObject)Instantiate(ballPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
