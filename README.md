@@ -15,6 +15,10 @@ Jan 21 2019 Created new Unity project<br>
 Jan 23 2019 Basic scene with add / remove interactivty<br>
 Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.
 
+### Installation instructions
+
+todo
+
 ---
 
 ## Spring 2019 MCL project weekly assignments
@@ -35,5 +39,9 @@ Jan 28 2019 Add / remove / move interactivity finished, though not optimized. Fi
 2. (J) Create visual interface that allows user to show or hide these slightly transparent balls.<br>
 
 *Week of February 11:*
-1. (A/S/V) When two points are close enough, show edge between them.<br>
-2. (J) Create visual interface that allows user to show / hide edges.<br> 
+1. Continue with previous week's goals. <br> 
+
+*Week of February 18:*
+1. Make the halo transparent with the alpha of the color of the standard shader. <br>
+2. Make the halo be creatd as a child of the ball.<br>
+3. Learn about the joystick controls and how they canbe paired with the scale of the halo.<br>
