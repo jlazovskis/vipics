@@ -9,12 +9,14 @@ public class Baller : MonoBehaviour {
     public GameObject haloPrefab;
 	public float threshold = 0.03f;
 	private List<GameObject> BList = new List<GameObject>();
+	private List<GameObject> HList = new List<GameObject>();
 	private GameObject nearBall;
 	private GameObject clone;
 	private GameObject halo;
 	private Rigidbody rb;
 	private string name;
 	static int num;
+	static int curnum;
 	
 	// Update is called once per frame
 	void Update () {
@@ -34,57 +36,72 @@ public class Baller : MonoBehaviour {
 	*/
         if (OVRInput.GetDown(OVRInput.RawButton.B)) {
             if (rightHandAnchor != null) {
-                GameObject clone = (GameObject)Instantiate(ballPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
-				clone.name = "clone" + num.ToString();
-                GameObject halo = (GameObject)Instantiate(haloPrefab, rightHandAnchor.transform.position, rightHandAnchor.transform.rotation);
-				halo.name = "halo" + num.ToString();				
-				num++;
-				// Add new clone to list of balls
-				BList.Add(clone);
+            	AddBall(rightHandAnchor);
             }
         }
         if (OVRInput.GetDown(OVRInput.RawButton.Y)) {
             if (leftHandAnchor != null) {
-				GameObject clone = (GameObject)Instantiate(ballPrefab, leftHandAnchor.transform.position, leftHandAnchor.transform.rotation);
-				clone.name = "clone" + num.ToString();
-				num++;
-				// Add new clone to list of balls
-				BList.Add(clone);
+            	AddBall(leftHandAnchor);
 			}
         }
 		
 		if (OVRInput.GetDown(OVRInput.RawButton.A)) {
 			if (rightHandAnchor != null) {
-				RaycastHit[] hits = Physics.SphereCastAll(rightHandAnchor.transform.position, threshold, rightHandAnchor.transform.forward, 0f);
-				foreach (RaycastHit ball in hits){
-					nearBall = ball.collider.gameObject;
-					Debug.Log("GONNA DESTROY: " + ball.collider.name);
-					// Remove clone from list of balls
-					BList.Remove(nearBall);
-					// Drop clone to bottom, make invisible
-					rb = nearBall.GetComponent<Rigidbody>();
-					rb.isKinematic = false;
-					rb.useGravity = true;
-					Destroy(nearBall.GetComponent<MeshRenderer>());
-				}
+				RemoveBall(rightHandAnchor);
 			}
 		}
 		if (OVRInput.GetDown(OVRInput.RawButton.X)) {
 			if (leftHandAnchor != null) {
-				RaycastHit[] hits = Physics.SphereCastAll(leftHandAnchor.transform.position, threshold, leftHandAnchor.transform.forward, 0f);
-				foreach (RaycastHit ball in hits){
-					nearBall = ball.collider.gameObject;
-					Debug.Log("GONNA DESTROY: " + ball.collider.name);
-					// Remove clone from list of balls
-					BList.Remove(nearBall);
-					// Drop clone to bottom, make invisible					
-					rb = nearBall.GetComponent<Rigidbody>();
-					rb.isKinematic = false;
-					rb.useGravity = true;
-					Destroy(nearBall.GetComponent<MeshRenderer>());
-				}
+				RemoveBall(leftHandAnchor);
 			}
 		}
 	}
-}
 
+	// Adds a ball and a halo at the input anchor position
+	void AddBall (GameObject anchor) {
+		// Instantiate ball at anchor position
+    	GameObject clone = (GameObject)Instantiate(ballPrefab, anchor.transform.position, anchor.transform.rotation);
+		clone.name = "clone" + num.ToString();
+		BList.Add(clone);
+		// Instantiate halo at anchor position
+        GameObject halo = (GameObject)Instantiate(haloPrefab, anchor.transform.position, anchor.transform.rotation);
+		halo.name = "halo" + num.ToString();				
+		HList.Add(halo);
+		// Increase counter	
+		num++;
+	}
+
+	// Removes all balls and halos within a threshold distance of the anchor position
+	void RemoveBall (GameObject anchor) {
+		// Find objects within threshold of anchor
+		RaycastHit[] hits = Physics.SphereCastAll(anchor.transform.position, threshold, anchor.transform.forward, 0f);
+		foreach (RaycastHit ball in hits){
+			nearBall = ball.collider.gameObject;
+			Debug.Log("GONNA DESTROY: " + ball.collider.name);
+			// Remove the ball
+			if (nearBall.name.Substring(0,5) == "clone"){
+				// Remove from list
+				BList.Remove(nearBall);
+				// Drop to bottom, make invisible
+				rb = nearBall.GetComponent<Rigidbody>();
+				rb.isKinematic = false;
+				rb.useGravity = true;
+				Destroy(nearBall.GetComponent<MeshRenderer>());
+			}
+			// Remove the halo
+			else { if (nearBall.name.Substring(0,4) == "halo") {
+				// Remove from list
+				HList.Remove(nearBall);
+				// Drop to bottom, make invisible
+				rb = nearBall.GetComponent<Rigidbody>();
+				rb.isKinematic = false;
+				rb.useGravity = true;
+				Destroy(nearBall.GetComponent<MeshRenderer>());
+			}}
+		}
+	}
+
+	void UpdateRadii () {
+	}
+
+}
