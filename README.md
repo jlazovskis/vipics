@@ -13,7 +13,8 @@ The goals of this project are:
 Nov 28 2018 Initial commit<br>
 Jan 21 2019 Created new Unity project<br>
 Jan 23 2019 Basic scene with add / remove interactivty<br>
-Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.
+Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.<br>
+Feb 25 2019 Halos introduced, method to increase their radius introduced.
 
 ### Installation instructions
 
@@ -45,3 +46,7 @@ todo
 1. Make the halo transparent with the alpha of the color of the standard shader. <br>
 2. Make the halo be creatd as a child of the ball.<br>
 3. Learn about the joystick controls and how they canbe paired with the scale of the halo.<br>
+
+*Week of February 25:*
+1. Work on a method that updates the radius of all the halos in the scene.<br>
+2. Work together to create a 5-10 minutes presentation in Google Slides for the other groups.
