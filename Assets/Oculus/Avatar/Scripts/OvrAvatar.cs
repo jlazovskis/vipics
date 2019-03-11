@@ -77,8 +77,12 @@ public class OvrAvatar : MonoBehaviour
     public string oculusUserID;
     internal UInt64 oculusUserIDInternal;
 
-#if UNITY_ANDROID && UNITY_5_5_OR_NEWER && !UNITY_EDITOR
-    bool CombineMeshes = true;
+#if UNITY_ANDROID && UNITY_5_5_OR_NEWER
+    #if !UNITY_EDITOR || QA_CONFIGURATION
+        bool CombineMeshes = true;
+    #else
+        bool CombineMeshes = false;
+    #endif
 #else
     bool CombineMeshes = false;
 #endif
@@ -168,6 +172,15 @@ public class OvrAvatar : MonoBehaviour
 #else
     internal ovrAvatarAssetLevelOfDetail LevelOfDetail = ovrAvatarAssetLevelOfDetail.Highest;
 #endif
+
+#if QA_CONFIGURATION
+    public ovrAvatarLookAndFeelVersion LookAndFeelVersion = ovrAvatarLookAndFeelVersion.Two;
+    public ovrAvatarLookAndFeelVersion FallbackLookAndFeelVersion = ovrAvatarLookAndFeelVersion.One;
+#else
+    internal ovrAvatarLookAndFeelVersion LookAndFeelVersion = ovrAvatarLookAndFeelVersion.Two;
+    internal ovrAvatarLookAndFeelVersion FallbackLookAndFeelVersion = ovrAvatarLookAndFeelVersion.One;
+#endif
+
 
     void OnDestroy()
     {
@@ -587,7 +600,9 @@ public class OvrAvatar : MonoBehaviour
             this.AvatarSpecificationCallback,
             CombineMeshes,
             LevelOfDetail,
-            ForceMobileTextureFormat);
+            ForceMobileTextureFormat,
+            LookAndFeelVersion,
+            FallbackLookAndFeelVersion);
 
         WaitingForCombinedMesh = CombineMeshes;
         Driver.Mode = UseSDKPackets ? OvrAvatarDriver.PacketMode.SDK : OvrAvatarDriver.PacketMode.Unity;

@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Filename    :   OVRLipSyncContextMorphTarget.cs
 Content     :   This bridges the viseme output to the morph targets
 Created     :   August 7th, 2015

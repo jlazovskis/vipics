@@ -1,4 +1,3 @@
-
 //
 // OvrAvatar PC single component shader
 //
@@ -68,8 +67,8 @@ Shader "OvrAvatar/Avatar_PC_SingleComponent"
 
         void surf(Input IN, inout SurfaceOutputStandard o)
         {
-			// Unpack normal map
-			o.Normal = tex2D(_NormalMap, IN.uv_NormalMap) * 2 - 1;
+            // Unpack normal map
+            o.Normal = tex2D(_NormalMap, IN.uv_NormalMap) * 2 - 1;
 
             // Diffuse texture sample
             float4 col = tex2D(_MainTex, IN.uv_MainTex);

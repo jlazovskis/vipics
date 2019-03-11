@@ -1,4 +1,4 @@
-﻿Shader "OvrAvatar/AvatarSurfaceShaderSelfOccluding" {
+Shader "OvrAvatar/AvatarSurfaceShaderSelfOccluding" {
 	Properties{
 		// Global parameters
 		_Alpha("Alpha", Range(0.0, 1.0)) = 1.0

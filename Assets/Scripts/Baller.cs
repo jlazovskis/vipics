@@ -8,6 +8,7 @@ public class Baller : MonoBehaviour {
     public GameObject ballPrefab;
     public GameObject haloPrefab;
 	public float threshold = 0.03f;
+	public float r = 0.1f;
 	// For keeping track
 	private List<GameObject> BList = new List<GameObject>();
 	private List<GameObject> HList = new List<GameObject>();
@@ -31,11 +32,13 @@ public class Baller : MonoBehaviour {
 		if (OVRInput.GetDown(OVRInput.RawButton.B)) {
             if (rightHandAnchor != null) {
             	AddBall(rightHandAnchor);
+				UpdateRadii();
             }
         }
         if (OVRInput.GetDown(OVRInput.RawButton.Y)) {
             if (leftHandAnchor != null) {
             	AddBall(leftHandAnchor);
+				UpdateRadii();
 			}
         }
 		
@@ -53,6 +56,13 @@ public class Baller : MonoBehaviour {
 		
 		// When to change radius of halos
 		if(OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp)) {
+			r += 0.02f;
+			UpdateRadii();
+		}
+		
+		//Decrease radius
+		if(OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown)) {
+			r -= 0.02f;
 			UpdateRadii();
 		}
 	}
@@ -94,7 +104,7 @@ public class Baller : MonoBehaviour {
 
 	void UpdateRadii () {
 		foreach (GameObject halo in HList) {
-			halo.transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+			halo.transform.localScale = new Vector3(r, r, r);
 		}
 	}
 }

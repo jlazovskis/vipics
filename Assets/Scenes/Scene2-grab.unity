@@ -595,6 +595,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 1497766408497028, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
   haloPrefab: {fileID: 1005321667841324, guid: 37e1d4d733bb02b43a7ebc101118ed5c, type: 2}
   threshold: 0.03
+  r: 0.01
 --- !u!4 &1331043670
 Transform:
   m_ObjectHideFlags: 0

@@ -227,7 +227,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 206856059}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &206856061
 Behaviour:
   m_ObjectHideFlags: 0
@@ -594,8 +594,8 @@ MonoBehaviour:
   localAvatarPrefab: {fileID: 11437430, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 2}
   remoteAvatarPrefab: {fileID: 11464902, guid: 90bf33f968e6bb44ea0208fc82c90a44, type: 2}
   helpPanel: {fileID: 840719025}
-  riftMaterial: {fileID: 2100000, guid: 3480b18dc3be4c2498fb60a71184a4d1, type: 2}
-  gearMaterial: {fileID: 2100000, guid: ce189bc65dde82740a5f34ef75bf87aa, type: 2}
+  riftMaterial: {fileID: 2100000, guid: 4c18da23435024b43a2b78449cbb6ed0, type: 2}
+  gearMaterial: {fileID: 2100000, guid: 09c03a3c5049d234590b91bbc6e84462, type: 2}
   roomSphere: {fileID: 1902705651}
   roomFloor: {fileID: 2115777246}
   spyCamera: {fileID: 206856063}

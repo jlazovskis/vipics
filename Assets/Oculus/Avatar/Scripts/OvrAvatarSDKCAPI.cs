@@ -684,6 +684,9 @@ namespace Oculus.Avatar
             ovrAvatar_SetLeftHandVisibility(avatar, true);
             ovrAvatar_SetRightHandVisibility(avatar, true);
             ovrAvatarPose_Update3DofHands(avatar, leftPtr, rightPtr, type);
+
+            Marshal.FreeHGlobal(leftPtr);
+            Marshal.FreeHGlobal(rightPtr);
         }
 
         [DllImport(LibFile, CallingConvention = CallingConvention.Cdecl)]
@@ -842,6 +845,8 @@ namespace Oculus.Avatar
                 meshIDs[i] = (UInt64)Marshal.ReadInt64(idBuffer, i * Marshal.SizeOf(typeof(UInt64)));
             }
 
+            Marshal.FreeHGlobal(countPtr);
+
             return meshIDs;
         }
 
@@ -857,6 +862,9 @@ namespace Oculus.Avatar
 
             textureID = (UInt64)Marshal.PtrToStructure(textureIDPtr, typeof(UInt64));
             offset = (Vector4)Marshal.PtrToStructure(offsetPtr, typeof(Vector4));
+
+            Marshal.FreeHGlobal(textureIDPtr);
+            Marshal.FreeHGlobal(offsetPtr);
         }
 
         [DllImport(LibFile, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ovrAvatar_GetCombinedMeshAlphaData")]
@@ -990,6 +998,8 @@ namespace Oculus.Avatar
                 IntPtr nextItem = new IntPtr(ptrState.ToInt64() + i * Marshal.SizeOf(typeof(ovrAvatarPBSMaterialState)));
                 states[i] = (ovrAvatarPBSMaterialState)Marshal.PtrToStructure(nextItem, typeof(ovrAvatarPBSMaterialState));
             }
+
+            Marshal.FreeHGlobal(countPtr);
 
             return states;
         }

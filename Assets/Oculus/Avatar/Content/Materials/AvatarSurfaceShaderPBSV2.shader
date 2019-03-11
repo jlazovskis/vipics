@@ -1,4 +1,4 @@
-﻿Shader "OvrAvatar/AvatarSurfaceShaderPBSV2" {
+Shader "OvrAvatar/AvatarSurfaceShaderPBSV2" {
 	Properties {
 		_AlbedoMultiplier ("Albedo Multiplier", Color) = (1,1,1,1)
 		_Albedo ("Albedo (RGB)", 2D) = "white" {}

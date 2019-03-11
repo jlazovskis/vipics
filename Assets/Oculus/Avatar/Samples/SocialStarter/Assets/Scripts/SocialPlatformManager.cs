@@ -89,6 +89,8 @@ public class SocialPlatformManager : MonoBehaviour
         {
             localAvatar.VoiceAmplitude = Mathf.Clamp(voiceCurrent * VOIP_SCALE, 0f, 1f);
         }
+
+        Oculus.Platform.Request.RunCallbacks();
     }
 
     #region Initialization and Shutdown
@@ -118,19 +120,32 @@ public class SocialPlatformManager : MonoBehaviour
 
         TransitionToState(State.INITIALIZING);
 
-        Core.Initialize();
+        Core.AsyncInitialize().OnComplete(InitCallback);
 
         roomManager = new RoomManager();
         p2pManager = new P2PManager();
         voipManager = new VoipManager();
     }
 
-    public virtual void Start()
+    void InitCallback(Message<PlatformInitialize> msg)
     {
+        if (msg.IsError)
+        {
+            TerminateWithError(msg);
+            return;
+        }
+
+        LaunchDetails launchDetails = ApplicationLifecycle.GetLaunchDetails();
+        SocialPlatformManager.LogOutput("App launched with LaunchType " + launchDetails.LaunchType);
+
         // First thing we should do is perform an entitlement check to make sure
         // we successfully connected to the Oculus Platform Service.
         Entitlements.IsUserEntitledToApplication().OnComplete(IsEntitledCallback);
-        Oculus.Platform.Request.RunCallbacks();
+    }
+
+    public virtual void Start()
+    {
+        // noop here, but is being overridden in PlayerController
     }
 
     void IsEntitledCallback(Message msg)
@@ -143,7 +158,6 @@ public class SocialPlatformManager : MonoBehaviour
 
         // Next get the identity of the user that launched the Application.
         Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
-        Oculus.Platform.Request.RunCallbacks();
     }
 
     void GetLoggedInUserCallback(Message<User> msg)
@@ -262,7 +276,7 @@ public class SocialPlatformManager : MonoBehaviour
         foreach (KeyValuePair<ulong, RemotePlayer> kvp in remoteUsers)
         {
             //LogOutputLine("Sending avatar Packet to  " + kvp.Key);
-            p2pManager.SendAvatarUpdate(kvp.Key, this.localAvatar.transform, packetSequence, toSend);
+            p2pManager.SendAvatarUpdate(kvp.Key, this.transform, packetSequence, toSend);
         }
 
         packetSequence++;
