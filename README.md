@@ -49,4 +49,13 @@ todo
 
 *Week of February 25:*
 1. Work on a method that updates the radius of all the halos in the scene.<br>
-2. Work together to create a 5-10 minutes presentation in Google Slides for the other groups.
+2. Work together to create a 5-10 minutes presentation in Google Slides for the other groups.<br>
+
+*Week of March 11:*
+1. (A/S/V) Work on the cylinders / lines / connectors between balls:<br>
+	1. First figure out how to show connectors between all pairs of balls in scene.
+	2. The ends of the connectors should be the centers of the balls (clones).
+	3. When a new ball is added, connectors should appear to all other balls in the scene.
+	4. When a ball is deleted, the connectors between it and all other balls should disappear.
+	5. Once this is done, work on how to make the connector appear / disappear based on how close the balls at its ends are.
+2. (J) Create visual interface that allows user to show or hide halos.<br>
