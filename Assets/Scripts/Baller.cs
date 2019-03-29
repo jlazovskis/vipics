@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Baller : MonoBehaviour {
-    public GameObject leftHandAnchor;
-    public GameObject rightHandAnchor;
-    public GameObject ballPrefab;
-    public GameObject haloPrefab;
+	public GameObject leftHandAnchor;
+	public GameObject rightHandAnchor;
+	public GameObject ballPrefab;
+	public GameObject haloPrefab;
+	public GameObject cylinderPrefab;
 	public float threshold = 0.03f;
 	public float r = 0.1f;
 	// For keeping track
 	private List<GameObject> BList = new List<GameObject>();
 	private List<GameObject> HList = new List<GameObject>();
+	private int vertex;
 	private int radius;
 	// For adding
 	private GameObject clone;
 	private GameObject halo;
+    private GameObject cylinder;
 	static int num;
 	// For deleting
 	private GameObject nearBall;
@@ -72,6 +75,14 @@ public class Baller : MonoBehaviour {
 		// Instantiate ball at anchor position
     	GameObject clone = (GameObject)Instantiate(ballPrefab, anchor.transform.position, anchor.transform.rotation);
 		clone.name = "clone" + num.ToString();
+		// Instantiate cylinder between anchor and other clones
+		foreach (GameObject existing_ball in BList){
+			GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existing_ball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existing_ball.transform.position));
+            cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);			
+			int vertex = BList.IndexOf(existing_ball);
+			cylinder.name = "cylinder-" + num.ToString() + "-" + vertex.ToString();
+			CList.Add(cylinder);
+		}			
 		BList.Add(clone);
 		// Instantiate halo at anchor position, as child of ball
         GameObject halo = (GameObject)Instantiate(haloPrefab, anchor.transform.position, anchor.transform.rotation);
