@@ -13,12 +13,13 @@ public class Baller : MonoBehaviour {
 	// For keeping track
 	private List<GameObject> BList = new List<GameObject>();
 	private List<GameObject> HList = new List<GameObject>();
+	private List<GameObject> CList = new List<GameObject>();
 	private int vertex;
 	private int radius;
 	// For adding
 	private GameObject clone;
 	private GameObject halo;
-    private GameObject cylinder;
+	private GameObject cylinder;
 	static int num;
 	// For deleting
 	private GameObject nearBall;
@@ -78,7 +79,7 @@ public class Baller : MonoBehaviour {
 		// Instantiate cylinder between anchor and other clones
 		foreach (GameObject existing_ball in BList){
 			GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existing_ball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existing_ball.transform.position));
-            cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);			
+			cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);			
 			int vertex = BList.IndexOf(existing_ball);
 			cylinder.name = "cylinder-" + num.ToString() + "-" + vertex.ToString();
 			CList.Add(cylinder);
