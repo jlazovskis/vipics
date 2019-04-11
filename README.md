@@ -14,7 +14,9 @@ Nov 28 2018 Initial commit<br>
 Jan 21 2019 Created new Unity project<br>
 Jan 23 2019 Basic scene with add / remove interactivty<br>
 Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.<br>
-Feb 25 2019 Halos introduced, method to increase their radius introduced.
+Feb 25 2019 Halos introduced, method to increase their radius introduced.<br>
+Mar 29 2019 Cylinders introduced. They do not move when balls are moved.<br>
+Apr 10 2019	Cylinders move when balls are moved.
 
 ### Installation instructions
 
@@ -59,3 +61,10 @@ todo
 	4. When a ball is deleted, the connectors between it and all other balls should disappear.
 	5. Once this is done, work on how to make the connector appear / disappear based on how close the balls at its ends are.
 2. (J) Create visual interface that allows user to show or hide halos.<br>
+
+*Week of April 8:*
+1. (A/S/V) Work on how to remove cylinders when balls are removed by the user.<br>
+2. (A/S/V) Start thinking about the poster at the end of the semester.<br>
+3. (J) Do project clean up:<br>
+	1. Remove unnecessary files from git repo.
+	2. Make clear installation instructions.
