@@ -20,16 +20,20 @@ Apr 10 2019	Cylinders move when balls are moved.
 
 ### Installation instructions
 
-Many issues can be resolved by saving and restarting Unity after every step.<br>
+Many issues can be resolved by saving the project and restarting Unity after every step.<br>
 
 0. Prerequisites: Unity 2018.2, Oculus Rift and Touch controllers.<br>
 1. Create a new project in Unity with a 3D Template.<br>
-2. Install "Oculus Integration" package from the Asset Store.<br>
+2. Set up the project in Unity:<br>
+	1. Check the box: Edit -> Project Settings -> Player -> XR Settings -> Virtual Reality Supported<br>
+	2. Install "Oculus Integration" package from the Asset Store.
 3. Clone this repository into the folder "Assets".<br>
 4. Set up the scene in Unity:<br>
 	1. Drag the scene Assets/vipics/Scenes/ConfigurationSpace from the "Project" tab into the "Hierarchy" tab.
 	2. Left-click on "Sample Scene" and click "Remove Scene".
 5. Click "Play".<br>
+
+The scene ConfigurationSpace uses the default AvatarGrab scene found in Assets/Oculus/SampleFramework/Usage/ .
 
 ---
 
