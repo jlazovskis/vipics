@@ -22,6 +22,7 @@ public class Baller : MonoBehaviour {
 	private List<List<int>> VertexList = new List<List<int>>();
 	private List<List<int>> EdgeList = new List<List<int>>();
 	private List<int> TempEdgeList1 = new List<int>();
+    private List<int> DeletedBallList = new List<int>();
 	private List<GameObject> TempEdgeList2 = new List<GameObject>();
 	private int vertex;
 	private int edge;
@@ -109,17 +110,19 @@ public class Baller : MonoBehaviour {
 		TempEdgeList1.Clear();
 		// Instantiate cylinder between anchor and other clones
 		foreach (GameObject existing_ball in BList){
-			GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existing_ball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existing_ball.transform.position));
-			cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);
 			int vertex = BList.IndexOf(existing_ball);
-			cylinder.name = "cylinder-" + num.ToString() + "-" + vertex.ToString();
-			// Add cylinder to lists
-			CList.Add(cylinder);
-			TempEdgeList1.Add(CList.IndexOf(cylinder));
-			EdgeList[vertex].Add(CList.IndexOf(cylinder));
-			//Debug.Log("Ball " + vertex + " now has " + EdgeList[vertex].Count + " neighbors");
-			// Add vertices of cylinder to list
-			VertexList.Add(new List<int> { num, vertex });
+            if (!DeletedBallList.Contains(vertex)) {
+				GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existing_ball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existing_ball.transform.position));
+				cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);
+				cylinder.name = "cylinder-" + num.ToString() + "-" + vertex.ToString();
+				// Add cylinder to lists
+				CList.Add(cylinder);
+				TempEdgeList1.Add(CList.IndexOf(cylinder));
+				EdgeList[vertex].Add(CList.IndexOf(cylinder));
+				//Debug.Log("Ball " + vertex + " now has " + EdgeList[vertex].Count + " neighbors");
+				// Add vertices of cylinder to list
+				VertexList.Add(new List<int> { num, vertex });
+			}
 		}
 		// Add ball to list
 		BList.Add(clone);
@@ -143,18 +146,22 @@ public class Baller : MonoBehaviour {
 		// Find objects within threshold of anchor
 		RaycastHit[] hits = Physics.SphereCastAll(anchor.transform.position, threshold, anchor.transform.forward, 0f);
 		foreach (RaycastHit ball in hits){
-			Debug.Log("GONNA DESTROY: " + ball.collider.name);
 			nearBall = ball.collider.gameObject;
-			nearHalo = nearBall.transform.GetChild(0).gameObject;
-			// Remove from lists
-			BList.Remove(nearBall);
-			HList.Remove(nearHalo);
-			// Drop ball to bottom, make invisible
-			rb = nearBall.GetComponent<Rigidbody>();
-			rb.isKinematic = false;
-			rb.useGravity = true;
 			Destroy(nearBall.GetComponent<MeshRenderer>());
-			Destroy(nearHalo.GetComponent<MeshRenderer>());
+			if (nearBall.tag == "BALL") {
+				Debug.Log("GONNA DESTROY: " + ball.collider.name);
+				nearHalo = nearBall.transform.GetChild(0).gameObject;
+				// Remove from lists
+				//BList.Remove(nearBall);
+				//HList.Remove(nearHalo);
+				// Add to list of deleted balls
+                DeletedBallList.Add(BList.IndexOf(nearBall));
+				// Drop ball to bottom, make invisible
+				rb = nearBall.GetComponent<Rigidbody>();
+				rb.isKinematic = false;
+				rb.useGravity = true;
+				Destroy(nearHalo.GetComponent<MeshRenderer>());
+			}
 		}
 	}
 
