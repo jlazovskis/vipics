@@ -281,6 +281,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1723585590}
   - component: {fileID: 1723585591}
+  - component: {fileID: 1723585593}
+  - component: {fileID: 1723585592}
   m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
@@ -322,6 +324,32 @@ MonoBehaviour:
     type: 2}
   threshold: 0.03
   r: 0.1
+--- !u!114 &1723585592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723585589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd7f650667659c4ba42901159423a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cylinderPrefab: {fileID: 1088162338362832, guid: db2fd3259a317a04e9386b947814c20a,
+    type: 2}
+--- !u!114 &1723585593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723585589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f070c721af171e24cb9df58f3f4947e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballPrefab: {fileID: 1497766408497028, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
+  haloPrefab: {fileID: 1005321667841324, guid: 37e1d4d733bb02b43a7ebc101118ed5c, type: 2}
 --- !u!1 &1991763775
 GameObject:
   m_ObjectHideFlags: 0
