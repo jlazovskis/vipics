@@ -19,22 +19,24 @@ public class Baller : MonoBehaviour {
 	private List<GameObject> BList = new List<GameObject>();
 	private List<GameObject> HList = new List<GameObject>();
 	private List<GameObject> CList = new List<GameObject>();
-	private List<List<int>> VertexList = new List<List<int>>();
-	private List<List<int>> EdgeList = new List<List<int>>();
-	private List<int> TempEdgeList1 = new List<int>();
-    private List<int> DeletedBallList = new List<int>();
-	private List<GameObject> TempEdgeList2 = new List<GameObject>();
+	private List<int> BList_alive = new List<int>();
+	private List<int> BList_dead = new List<int>();
+	private Vector3 edger;
 	private int vertex;
 	private int edge;
 	private int radius;
-	private int ballA;
-	private int ballB;
+	private GameObject ball0;
+	private GameObject ball1;
 	
 	// For adding
 	private GameObject clone;
 	private GameObject halo;
 	private GameObject cylinder;
-	static int num;
+	static int num0 = 0;
+	static int num1 = 0;
+	
+	private Simplex0 newball;
+	private Simplex1 newedge;
 	
 	// For deleting
 	private GameObject nearBall;
@@ -85,82 +87,87 @@ public class Baller : MonoBehaviour {
 		}
 		
 		// When to adjust connecting cylinders
-		foreach(GameObject ball in BList){
-			if(ball.transform.hasChanged){
-				Debug.Log("Whoa!");
-				int vertex = BList.IndexOf(ball);
-				foreach(int cylindex in EdgeList[vertex]){
-					cylinder = CList[cylindex];
-					ballA = VertexList[cylindex][0];
-					ballB = VertexList[cylindex][1];
-					cylinder.transform.position = (BList[ballA].transform.position + BList[ballB].transform.position)/2;
-					cylinder.transform.rotation = Quaternion.FromToRotation(Vector3.up, BList[ballA].transform.position - BList[ballB].transform.position);
-					cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(BList[ballA].transform.position/2, BList[ballB].transform.position/2), 0.015f);
+		foreach(int ballindex in BList_alive){
+			if(BList[ballindex].gameObject.transform.hasChanged){
+				foreach(int cylindex in BList[ballindex].gameObject.GetComponent<Simplex0>().neighbors1){
+					GameObject cylinder = CList[cylindex];
+					GameObject ball0 = BList[cylinder.GetComponent<Simplex1>().neighbors0[0]];
+					GameObject ball1 = BList[cylinder.GetComponent<Simplex1>().neighbors0[1]];
+					cylinder.transform.position = (ball0.transform.position + ball1.transform.position)/2;
+					cylinder.transform.rotation = Quaternion.FromToRotation(Vector3.up, ball0.transform.position - ball1.transform.position);
+					cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(ball0.transform.position/2, ball1.transform.position/2), 0.015f);
 				}
-				ball.transform.hasChanged = false;
+				BList[ballindex].gameObject.transform.hasChanged = false;
 			}
 		}
-	}
-	
-	// Adds a ball and a halo at the input anchor position
-	void AddBall (GameObject anchor) {
-		// Instantiate ball at anchor position
-    	GameObject clone = (GameObject)Instantiate(ballPrefab, anchor.transform.position, anchor.transform.rotation);
-		clone.name = "clone" + num.ToString();
-		TempEdgeList1.Clear();
-		// Instantiate cylinder between anchor and other clones
-		foreach (GameObject existing_ball in BList){
-			int vertex = BList.IndexOf(existing_ball);
-            if (!DeletedBallList.Contains(vertex)) {
-				GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existing_ball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existing_ball.transform.position));
-				cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existing_ball.transform.position/2, anchor.transform.position/2), 0.015f);
-				cylinder.name = "cylinder-" + num.ToString() + "-" + vertex.ToString();
-				// Add cylinder to lists
-				CList.Add(cylinder);
-				TempEdgeList1.Add(CList.IndexOf(cylinder));
-				EdgeList[vertex].Add(CList.IndexOf(cylinder));
-				//Debug.Log("Ball " + vertex + " now has " + EdgeList[vertex].Count + " neighbors");
-				// Add vertices of cylinder to list
-				VertexList.Add(new List<int> { num, vertex });
-			}
-		}
-		// Add ball to list
-		BList.Add(clone);
-		// Add edges of ball to list
-		//EdgeList.Add(TempEdgeList1);
-		EdgeList.Add(new List<int> {});
-		foreach (int cylindex in TempEdgeList1) {
-			EdgeList[num].Add(cylindex);
-		}
-		// Instantiate halo at anchor position, as child of ball
-        GameObject halo = (GameObject)Instantiate(haloPrefab, anchor.transform.position, anchor.transform.rotation);
-		halo.name = "halo" + num.ToString();
-		halo.transform.SetParent(clone.transform);
-		HList.Add(halo);
-		// Increase counter	
-		num++;
 	}
 
-	// Removes all balls and halos within a threshold distance of the anchor position
+	// Adds a ball and a halo at the input anchor position
+	void AddBall (GameObject anchor) {
+		// Instantiate ball at anchor position and add to list
+		GameObject clone = (GameObject)Instantiate(ballPrefab, anchor.transform.position, anchor.transform.rotation);
+		clone.name = num0.ToString();
+		BList.Add(clone);
+		// Instantiate halo at anchor position
+		GameObject halo = (GameObject)Instantiate(haloPrefab, anchor.transform.position, anchor.transform.rotation);
+		halo.name = num0.ToString();
+		halo.transform.SetParent(clone.transform);
+		HList.Add(halo);
+		Simplex0 s = clone.AddComponent<Simplex0>();
+		// Instantiate cylinder for every vertex in scene
+		foreach (int b in BList_alive) {
+			GameObject existingball = BList[b];
+			GameObject cylinder = (GameObject)Instantiate(cylinderPrefab, (anchor.transform.position + existingball.transform.position)/2, Quaternion.FromToRotation(Vector3.up, anchor.transform.position - existingball.transform.position));
+			cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(existingball.transform.position/2, anchor.transform.position/2), 0.015f);
+			cylinder.name = num1.ToString();
+			CList.Add(cylinder);
+			Simplex1 c = cylinder.AddComponent<Simplex1>();
+			c.isdrawn = false;
+			Vector3 edger = clone.transform.position - existingball.transform.position;
+			c.length = edger.magnitude;
+			// Add edge index to neighbors
+			s.neighbors1.Add(num1);
+			existingball.GetComponent<Simplex0>().neighbors1.Add(num1);
+			// Add vertex indices to neighbors
+			c.neighbors0.Add(num0);
+			existingball.GetComponent<Simplex0>().neighbors0.Add(num0);
+			c.neighbors0.Add(System.Convert.ToInt32(existingball.name));
+			s.neighbors0.Add(System.Convert.ToInt32(existingball.name));
+			num1++;
+		}
+		BList_alive.Add(num0);
+		num0++;
+	}
+	
 	void RemoveBall (GameObject anchor) {
 		// Find objects within threshold of anchor
 		RaycastHit[] hits = Physics.SphereCastAll(anchor.transform.position, threshold, anchor.transform.forward, 0f);
 		foreach (RaycastHit ball in hits){
 			nearBall = ball.collider.gameObject;
-			Destroy(nearBall.GetComponent<MeshRenderer>());
 			if (nearBall.tag == "BALL") {
-				Debug.Log("GONNA DESTROY: " + ball.collider.name);
-				nearHalo = nearBall.transform.GetChild(0).gameObject;
-				// Remove from lists
-				//BList.Remove(nearBall);
-				//HList.Remove(nearHalo);
-				// Add to list of deleted balls
-                DeletedBallList.Add(BList.IndexOf(nearBall));
+				int vertex = System.Convert.ToInt32(nearBall.name);
+				// Remove vertex from lists
+				BList_alive.Remove(vertex);
+				BList_dead.Add(vertex);
+				foreach (int index0 in nearBall.GetComponent<Simplex0>().neighbors0) {
+					BList[index0].GetComponent<Simplex0>().neighbors0.Remove(vertex);
+				}
+				// Remove edge from lists
+				foreach (int index1 in nearBall.GetComponent<Simplex0>().neighbors1) {
+					Destroy(CList[index1].GetComponent<MeshRenderer>());
+					foreach (int index0 in nearBall.GetComponent<Simplex0>().neighbors0) {
+						if (BList[index0].GetComponent<Simplex0>().neighbors1.Contains(index1)) {
+							BList[index0].GetComponent<Simplex0>().neighbors1.Remove(index1);
+						}
+					}
+				}
 				// Drop ball to bottom, make invisible
 				rb = nearBall.GetComponent<Rigidbody>();
 				rb.isKinematic = false;
 				rb.useGravity = true;
+				nearHalo = nearBall.transform.GetChild(0).gameObject;
 				Destroy(nearHalo.GetComponent<MeshRenderer>());
+				Destroy(nearBall.GetComponent<MeshRenderer>());
 			}
 		}
 	}
