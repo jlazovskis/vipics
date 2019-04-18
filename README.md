@@ -16,7 +16,8 @@ Jan 23 2019 Basic scene with add / remove interactivty<br>
 Jan 28 2019 Add / remove / move interactivity finished, though not optimized. First group meeting.<br>
 Feb 25 2019 Halos introduced, method to increase their radius introduced.<br>
 Mar 29 2019 Cylinders introduced. They do not move when balls are moved.<br>
-Apr 10 2019	Cylinders move when balls are moved.
+Apr 10 2019 Cylinders move when balls are moved.<br>
+Apr 17 2019 Cylinders disappear when balls are removed.
 
 ### Installation instructions
 
@@ -81,3 +82,8 @@ The scene ConfigurationSpace uses the default AvatarGrab scene found in Assets/O
 3. (J) Do project clean up:<br>
 	1. Remove unnecessary files from git repo.
 	2. Make clear installation instructions.
+	
+*Week of April 15:*
+1. (A/S/V) Work on how to show / hide cylinders as radius changes.<br>
+2. (A/S/V) Install LaTeX and typeset .tex file for poster.<br>
+3. (J) Create method for toggling visibility of halos and edges.
