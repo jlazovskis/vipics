@@ -318,7 +318,7 @@ MonoBehaviour:
   rightHandAnchor: {fileID: 293374629}
   ballPrefab: {fileID: 1497766408497028, guid: 2ed6a86bab0e78a4785c2700ba330dfc, type: 2}
   haloPrefab: {fileID: 1005321667841324, guid: 37e1d4d733bb02b43a7ebc101118ed5c, type: 2}
-  cylinderPrefab: {fileID: 1424331653239974, guid: 023e75c07803ace4f9c5632004c846aa,
+  cylinderPrefab: {fileID: 1088162338362832, guid: db2fd3259a317a04e9386b947814c20a,
     type: 2}
   threshold: 0.03
   r: 0.1
