@@ -69,12 +69,14 @@ public class Baller : MonoBehaviour {
             if (rightHandAnchor != null) {
             	AddBall(rightHandAnchor);
 				UpdateRadii();
+				UpdateCylinders();
             }
         }
         if (OVRInput.GetDown(OVRInput.RawButton.Y)) {
             if (leftHandAnchor != null) {
             	AddBall(leftHandAnchor);
 				UpdateRadii();
+				UpdateCylinders();
 			}
         }
 		
@@ -99,6 +101,7 @@ public class Baller : MonoBehaviour {
 					CList[cylindex].GetComponent<Simplex1>().is_drawn = true;
 				}
 			}
+			UpdateCylinders();
 		}
 		
 		if (OVRInput.Get(OVRInput.RawButton.RThumbstickDown)) {
@@ -109,6 +112,7 @@ public class Baller : MonoBehaviour {
 					CList[cylindex].GetComponent<Simplex1>().is_drawn = false;
 				}
 			}
+			UpdateCylinders();
 		}
 		
 		//if (OVRInput.GetDown(OVRInput.RawButton.LThumbstick)) {
@@ -124,6 +128,7 @@ public class Baller : MonoBehaviour {
 			foreach (int cylindex in CList_alive) {
 				CList[cylindex].GetComponent<Simplex1>().is_shown = (show_hide % 4 < 2);
 			}
+			UpdateCylinders();
 			foreach (int triindex in TList_alive) {
 				TList[triindex].GetComponent<Simplex2>().is_shown = (show_hide % 4 < 2);
 			}
@@ -138,14 +143,7 @@ public class Baller : MonoBehaviour {
 			} 
 		}
 		
-		foreach (int cylindex in CList_alive) {
-			if (CList[cylindex].GetComponent<Simplex1>().is_shown & CList[cylindex].GetComponent<Simplex1>().is_drawn) {
-				CList[cylindex].GetComponent<MeshRenderer>().material = cylinder_shown;
-			}
-			else {
-				CList[cylindex].GetComponent<MeshRenderer>().material = hidden;
-			}
-		}
+
 		
 		foreach (int ballindex in BList_alive){
 			if (BList[ballindex].gameObject.transform.hasChanged){
@@ -308,6 +306,17 @@ public class Baller : MonoBehaviour {
 	void UpdateRadii () {
 		foreach (GameObject halo in HList) {
 			halo.transform.localScale = new Vector3(r, r, r);
+		}
+	}
+	
+	void UpdateCylinders () {
+		foreach (int cylindex in CList_alive) {
+			if (CList[cylindex].GetComponent<Simplex1>().is_shown & CList[cylindex].GetComponent<Simplex1>().is_drawn) {
+				CList[cylindex].GetComponent<MeshRenderer>().material = cylinder_shown;
+			}
+			else {
+				CList[cylindex].GetComponent<MeshRenderer>().material = hidden;
+			}
 		}
 	}
 }
