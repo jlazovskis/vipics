@@ -322,10 +322,13 @@ MonoBehaviour:
   haloPrefab: {fileID: 1005321667841324, guid: 37e1d4d733bb02b43a7ebc101118ed5c, type: 2}
   cylinderPrefab: {fileID: 1088162338362832, guid: db2fd3259a317a04e9386b947814c20a,
     type: 2}
+  trianglePrefab: {fileID: 1380757375771734, guid: 20d34709efe3e2d4682368a062c3ea3f,
+    type: 2}
   threshold: 0.03
   r: 0.1
   halo_shown: {fileID: 2100000, guid: bebb52be1ae8cef458e98f6c96201edf, type: 2}
   cylinder_shown: {fileID: 2100000, guid: 641d3bf4b45f12f46a8da3e4ac9a2d29, type: 2}
+  triangle_shown: {fileID: 2100000, guid: 2bb07b2ff390a6f4e8f91ab15710fa1f, type: 2}
   hidden: {fileID: 2100000, guid: 77d5eb354869ef443a6ce9b98dafbd42, type: 2}
 --- !u!114 &1723585592
 MonoBehaviour:
@@ -342,6 +345,7 @@ MonoBehaviour:
   is_drawn: 0
   length: 0
   neighbors0: 
+  neighbors2: 
 --- !u!114 &1723585593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +360,7 @@ MonoBehaviour:
   is_halo_shown: 0
   neighbors0: 
   neighbors1: 
+  neighbors2: 
 --- !u!1 &1991763775
 GameObject:
   m_ObjectHideFlags: 0

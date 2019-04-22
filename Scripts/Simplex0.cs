@@ -9,5 +9,6 @@ public class Simplex0 : MonoBehaviour {
 	public bool is_halo_shown;
 	public List<int> neighbors0 = new List<int>();
 	public List<int> neighbors1 = new List<int>();
+	public List<int> neighbors2 = new List<int>();
 
 }

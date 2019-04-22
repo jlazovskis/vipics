@@ -11,5 +11,6 @@ public class Simplex1 : MonoBehaviour {
 	public bool is_drawn;
 	public float length;
 	public List<int> neighbors0 = new List<int>();
+	public List<int> neighbors2 = new List<int>();
 
 }
