@@ -16,13 +16,15 @@ public class Baller : MonoBehaviour {
 	// Parameters
 	public float threshold = 0.03f;
 	public float r = 0.1f;
+	public bool NoTriangles = false;
 	
 	// For showing / hiding
 	public Material halo_shown;
 	public Material cylinder_shown;
 	public Material triangle_shown;
 	public Material hidden;
-	static int show_hide = 0;
+	static int halo_toggle = 0;
+	static int cyl_tri_toggle = 0;
 
 	// For keeping track
 	private List<GameObject> BList = new List<GameObject>();
@@ -68,15 +70,11 @@ public class Baller : MonoBehaviour {
 		if (OVRInput.GetDown(OVRInput.RawButton.B)) {
             if (rightHandAnchor != null) {
             	AddBall(rightHandAnchor);
-				UpdateRadii();
-				UpdateCylinders();
             }
         }
         if (OVRInput.GetDown(OVRInput.RawButton.Y)) {
             if (leftHandAnchor != null) {
             	AddBall(leftHandAnchor);
-				UpdateRadii();
-				UpdateCylinders();
 			}
         }
 		
@@ -102,8 +100,17 @@ public class Baller : MonoBehaviour {
 				}
 			}
 			UpdateCylinders();
+			if (!NoTriangles) {
+				foreach (int triindex in TList_alive){
+					Simplex2 tri = TList[triindex].GetComponent<Simplex2>();
+					tri.is_drawn = (
+						CList[tri.neighbors1[0]].GetComponent<Simplex1>().is_drawn & 
+						CList[tri.neighbors1[1]].GetComponent<Simplex1>().is_drawn & 
+						CList[tri.neighbors1[2]].GetComponent<Simplex1>().is_drawn );
+				}
+				UpdateTriangles();
+			}
 		}
-		
 		if (OVRInput.Get(OVRInput.RawButton.RThumbstickDown)) {
 			r -= 0.02f;
 			UpdateRadii();
@@ -113,39 +120,42 @@ public class Baller : MonoBehaviour {
 				}
 			}
 			UpdateCylinders();
+			if (!NoTriangles) {
+				foreach (int triindex in TList_alive){
+					Simplex2 tri = TList[triindex].GetComponent<Simplex2>();
+					tri.is_drawn = (
+						CList[tri.neighbors1[0]].GetComponent<Simplex1>().is_drawn & 
+						CList[tri.neighbors1[1]].GetComponent<Simplex1>().is_drawn & 
+						CList[tri.neighbors1[2]].GetComponent<Simplex1>().is_drawn );
+				}
+				UpdateTriangles();
+			}
 		}
 		
-		//if (OVRInput.GetDown(OVRInput.RawButton.LThumbstick)) {
-		//	GameObject triangle = (GameObject)Instantiate(trianglePrefab, leftHandAnchor.transform.position, leftHandAnchor.transform.rotation);
-		//}
-		
-		// When to show or hide halos, edges, triangles
+		// When to toggle visibility of halos, cylinders, triangles
 		if (OVRInput.GetDown(OVRInput.RawButton.RThumbstick)) {
-			show_hide++;
+			halo_toggle++;
 			foreach (int ballindex in BList_alive) {
-				BList[ballindex].GetComponent<Simplex0>().is_halo_shown = (show_hide % 2 == 0);
+				BList[ballindex].GetComponent<Simplex0>().is_halo_shown = (halo_toggle % 2 == 0);
 			}
+			UpdateHalos();
+		}
+		if (OVRInput.GetDown(OVRInput.RawButton.LThumbstick)) {
+			cyl_tri_toggle++;	
 			foreach (int cylindex in CList_alive) {
-				CList[cylindex].GetComponent<Simplex1>().is_shown = (show_hide % 4 < 2);
+				CList[cylindex].GetComponent<Simplex1>().is_shown = (cyl_tri_toggle % 3 < 2);
 			}
 			UpdateCylinders();
-			foreach (int triindex in TList_alive) {
-				TList[triindex].GetComponent<Simplex2>().is_shown = (show_hide % 4 < 2);
+			if (!NoTriangles) {
+				foreach (int triindex in TList_alive) {
+					TList[triindex].GetComponent<Simplex2>().is_shown = (cyl_tri_toggle % 3 < 1);
+				}
+				UpdateTriangles();
 			}
 		}
-		
-		foreach (int triindex in TList_alive) {
-			if (TList[triindex].GetComponent<Simplex2>().is_shown & TList[triindex].GetComponent<Simplex2>().is_drawn) {
-				TList[triindex].GetComponent<MeshRenderer>().material = triangle_shown;
-			}
-			else {
-				TList[triindex].GetComponent<MeshRenderer>().material = hidden;
-			} 
-		}
-		
-
 		
 		foreach (int ballindex in BList_alive){
+			// How user moving balls affects scene
 			if (BList[ballindex].gameObject.transform.hasChanged){
 				// Adjust neighboring cylinders
 				foreach (int cylindex in BList[ballindex].gameObject.GetComponent<Simplex0>().neighbors1){
@@ -157,31 +167,28 @@ public class Baller : MonoBehaviour {
 					cylinder.transform.localScale = new Vector3(0.015f, Vector3.Distance(ball0.transform.position/2, ball1.transform.position/2), 0.015f);
 					cylinder.GetComponent<Simplex1>().length = (ball0.transform.position - ball1.transform.position).magnitude;
 					cylinder.GetComponent<Simplex1>().is_drawn = (.05*r >= cylinder.GetComponent<Simplex1>().length);
+					UpdateSingle(CList[cylindex]);
 				}
-				// Adjust neighboring triangles
-				foreach (int triindex in BList[ballindex].gameObject.GetComponent<Simplex0>().neighbors2){
-					GameObject triangle = TList[triindex];
-					temp_list0 = triangle.GetComponent<Simplex2>().neighbors0;
-					temp_list1 = triangle.GetComponent<Simplex2>().neighbors1;
-					Destroy(triangle.GetComponent<Simplex2>());
-					Simplex2 tri = triangle.AddComponent<Simplex2>(); 
-					tri.neighbors0 = temp_list0;
-					tri.neighbors1 = temp_list1;
-					GameObject ball0 = BList[tri.neighbors0[0]];
-					GameObject ball1 = BList[tri.neighbors0[1]];
-					GameObject ball2 = BList[tri.neighbors0[2]];
-					tri.newVertices = new Vector3[3] { .05f*ball0.transform.position, .05f*ball1.transform.position, .05f*ball2.transform.position };
-					tri.is_drawn = (CList[tri.neighbors1[0]].GetComponent<Simplex1>().is_drawn & CList[tri.neighbors1[1]].GetComponent<Simplex1>().is_drawn & CList[tri.neighbors1[2]].GetComponent<Simplex1>().is_drawn );
-					tri.is_shown = (show_hide % 4 < 2);	
+				if (!NoTriangles) {
+					// Adjust neighboring triangles
+					foreach (int triindex in BList[ballindex].gameObject.GetComponent<Simplex0>().neighbors2){
+						GameObject triangle = TList[triindex];
+						temp_list0 = triangle.GetComponent<Simplex2>().neighbors0;
+						temp_list1 = triangle.GetComponent<Simplex2>().neighbors1;
+						Destroy(triangle.GetComponent<Simplex2>());
+						Simplex2 tri = triangle.AddComponent<Simplex2>(); 
+						tri.neighbors0 = temp_list0;
+						tri.neighbors1 = temp_list1;
+						GameObject ball0 = BList[tri.neighbors0[0]];
+						GameObject ball1 = BList[tri.neighbors0[1]];
+						GameObject ball2 = BList[tri.neighbors0[2]];
+						tri.newVertices = new Vector3[3] { .05f*ball0.transform.position, .05f*ball1.transform.position, .05f*ball2.transform.position };
+						tri.is_drawn = (CList[tri.neighbors1[0]].GetComponent<Simplex1>().is_drawn & CList[tri.neighbors1[1]].GetComponent<Simplex1>().is_drawn & CList[tri.neighbors1[2]].GetComponent<Simplex1>().is_drawn );
+						tri.is_shown = (cyl_tri_toggle % 3 < 1);
+						UpdateSingle(TList[triindex]);
+					}
 				}
 				BList[ballindex].gameObject.transform.hasChanged = false;
-			}
-			// When to show or hide halos
-			if (BList[ballindex].GetComponent<Simplex0>().is_halo_shown) {
-				HList[ballindex].GetComponent<MeshRenderer>().material = halo_shown;
-			}
-			else {
-				HList[ballindex].GetComponent<MeshRenderer>().material = hidden;
 			}
 		}
 	}
@@ -198,7 +205,8 @@ public class Baller : MonoBehaviour {
 		halo.transform.SetParent(clone.transform);
 		HList.Add(halo);
 		Simplex0 s = clone.AddComponent<Simplex0>();
-		s.is_halo_shown = (show_hide % 2 == 0);
+		s.is_halo_shown = (halo_toggle % 2 == 0);
+		UpdateSingle(clone);
 		// Instantiate cylinder for every vertex in scene
 		foreach (int b in BList_alive) {
 			GameObject existingball = BList[b];
@@ -210,8 +218,9 @@ public class Baller : MonoBehaviour {
 			Simplex1 c = cylinder.AddComponent<Simplex1>();
 			Vector3 edger = clone.transform.position - existingball.transform.position;
 			c.length = edger.magnitude;
-			c.is_shown = (show_hide % 4 < 2);
+			c.is_shown = (cyl_tri_toggle % 3 < 2);
 			c.is_drawn = (.05*r >= c.length);
+			UpdateSingle(cylinder);
 			// Add edge index to neighbors
 			s.neighbors1.Add(num1);
 			existingball.GetComponent<Simplex0>().neighbors1.Add(num1);
@@ -223,37 +232,40 @@ public class Baller : MonoBehaviour {
 			CList_alive.Add(num1);
 			num1++;
 		}
-		// Instantiate triangle for every pair of vertices in scene
-		foreach (int c in CList_alive) {
-			if (!CList[c].GetComponent<Simplex1>().neighbors0.Contains(num0)) {
-				GameObject triangle = (GameObject)Instantiate(trianglePrefab, new Vector3(0,0,0), Quaternion.identity);
-				triangle.name = num2.ToString();
-				TList.Add(triangle);
-				triangle.transform.localScale = new Vector3 (20f,20f,20f);
-				Simplex2 tri = triangle.AddComponent<Simplex2>(); 
-				GameObject ball0 = BList[CList[c].GetComponent<Simplex1>().neighbors0[0]];
-				GameObject ball1 = BList[CList[c].GetComponent<Simplex1>().neighbors0[1]];
-				tri.newVertices = new Vector3[3] { .05f*clone.transform.position, .05f*ball0.transform.position, .05f*ball1.transform.position };
-				// Add triangle index to neighbors
-				s.neighbors2.Add(num2);
-				ball0.GetComponent<Simplex0>().neighbors2.Add(num2);
-				ball1.GetComponent<Simplex0>().neighbors2.Add(num2);
-				CList[c].GetComponent<Simplex1>().neighbors2.Add(num2);
-				GameObject cyl0 = CList[ball0.GetComponent<Simplex0>().neighbors1.Intersect(s.neighbors1).ToList()[0]];
-				GameObject cyl1 = CList[ball1.GetComponent<Simplex0>().neighbors1.Intersect(s.neighbors1).ToList()[0]];
-				cyl0.GetComponent<Simplex1>().neighbors2.Add(num2);
-				cyl1.GetComponent<Simplex1>().neighbors2.Add(num2);
-				// Add edge indices to neighbors
-				tri.neighbors1.Add(c);
-				tri.neighbors1.Add(System.Convert.ToInt32(cyl0.name));
-				tri.neighbors1.Add(System.Convert.ToInt32(cyl1.name));
-				// Add vertex indices to neighbors
-				tri.neighbors0 = new List<int> { num0, System.Convert.ToInt32(ball0.name), System.Convert.ToInt32(ball1.name) };
-				// Set triangle attributes
-				tri.is_shown = (show_hide % 4 < 2);
-				tri.is_drawn = ( CList[c].GetComponent<Simplex1>().is_drawn & cyl0.GetComponent<Simplex1>().is_drawn & cyl1.GetComponent<Simplex1>().is_drawn );
-				TList_alive.Add(num2);
-				num2++;
+		if (!NoTriangles) {
+			// Instantiate triangle for every pair of vertices in scene
+			foreach (int c in CList_alive) {
+				if (!CList[c].GetComponent<Simplex1>().neighbors0.Contains(num0)) {
+					GameObject triangle = (GameObject)Instantiate(trianglePrefab, new Vector3(0,0,0), Quaternion.identity);
+					triangle.name = num2.ToString();
+					TList.Add(triangle);
+					triangle.transform.localScale = new Vector3 (20f,20f,20f);
+					Simplex2 tri = triangle.AddComponent<Simplex2>(); 
+					GameObject ball0 = BList[CList[c].GetComponent<Simplex1>().neighbors0[0]];
+					GameObject ball1 = BList[CList[c].GetComponent<Simplex1>().neighbors0[1]];
+					tri.newVertices = new Vector3[3] { .05f*clone.transform.position, .05f*ball0.transform.position, .05f*ball1.transform.position };
+					// Add triangle index to neighbors
+					s.neighbors2.Add(num2);
+					ball0.GetComponent<Simplex0>().neighbors2.Add(num2);
+					ball1.GetComponent<Simplex0>().neighbors2.Add(num2);
+					CList[c].GetComponent<Simplex1>().neighbors2.Add(num2);
+					GameObject cyl0 = CList[ball0.GetComponent<Simplex0>().neighbors1.Intersect(s.neighbors1).ToList()[0]];
+					GameObject cyl1 = CList[ball1.GetComponent<Simplex0>().neighbors1.Intersect(s.neighbors1).ToList()[0]];
+					cyl0.GetComponent<Simplex1>().neighbors2.Add(num2);
+					cyl1.GetComponent<Simplex1>().neighbors2.Add(num2);
+					// Add edge indices to neighbors
+					tri.neighbors1.Add(c);
+					tri.neighbors1.Add(System.Convert.ToInt32(cyl0.name));
+					tri.neighbors1.Add(System.Convert.ToInt32(cyl1.name));
+					// Add vertex indices to neighbors
+					tri.neighbors0 = new List<int> { num0, System.Convert.ToInt32(ball0.name), System.Convert.ToInt32(ball1.name) };
+					// Set triangle attributes
+					tri.is_shown = (cyl_tri_toggle % 3 < 1);
+					tri.is_drawn = ( CList[c].GetComponent<Simplex1>().is_drawn & cyl0.GetComponent<Simplex1>().is_drawn & cyl1.GetComponent<Simplex1>().is_drawn );
+					UpdateSingle(triangle);
+					TList_alive.Add(num2);
+					num2++;
+				}
 			}
 		}
 		BList_alive.Add(num0);
@@ -303,12 +315,26 @@ public class Baller : MonoBehaviour {
 		}
 	}
 
+	// Update method for all halo radii
 	void UpdateRadii () {
 		foreach (GameObject halo in HList) {
 			halo.transform.localScale = new Vector3(r, r, r);
 		}
 	}
 	
+	// Visibility update method for all halos 
+	void UpdateHalos () {
+		foreach (int ballindex in BList_alive) {
+			if (BList[ballindex].GetComponent<Simplex0>().is_halo_shown) {
+				HList[ballindex].GetComponent<MeshRenderer>().material = halo_shown;
+			}
+			else {
+				HList[ballindex].GetComponent<MeshRenderer>().material = hidden;
+			}
+		}
+	}
+	
+	// Visibility update method for all cylinders
 	void UpdateCylinders () {
 		foreach (int cylindex in CList_alive) {
 			if (CList[cylindex].GetComponent<Simplex1>().is_shown & CList[cylindex].GetComponent<Simplex1>().is_drawn) {
@@ -316,6 +342,52 @@ public class Baller : MonoBehaviour {
 			}
 			else {
 				CList[cylindex].GetComponent<MeshRenderer>().material = hidden;
+			}
+		}
+	}
+	
+	// Visibility update method for all triangles
+	void UpdateTriangles () {
+		foreach (int triindex in TList_alive) {
+			if (TList[triindex].GetComponent<Simplex2>().is_shown & TList[triindex].GetComponent<Simplex2>().is_drawn) {
+				TList[triindex].GetComponent<MeshRenderer>().material = triangle_shown;
+			}
+			else {
+				TList[triindex].GetComponent<MeshRenderer>().material = hidden;
+			} 
+		}
+	}
+	
+	// Visibility update method for single object of any type
+	void UpdateSingle (GameObject single) {
+		if (single.GetComponent<Simplex0>() == null) {
+			if (single.GetComponent<Simplex1>() == null) {
+				// Object is triangle
+				if (single.GetComponent<Simplex2>().is_shown & single.GetComponent<Simplex2>().is_drawn) {
+					single.GetComponent<MeshRenderer>().material = triangle_shown;
+				}
+				else {
+					single.GetComponent<MeshRenderer>().material = hidden;
+				}
+			}
+			// Object is cylinder
+			else {
+				if (single.GetComponent<Simplex1>().is_shown & single.GetComponent<Simplex1>().is_drawn) {
+					single.GetComponent<MeshRenderer>().material = cylinder_shown;
+				}
+				else {
+					single.GetComponent<MeshRenderer>().material = hidden;
+				}
+			}
+		}
+		// Object is ball
+		else {
+			HList[System.Convert.ToInt32(single.name)].transform.localScale = new Vector3(r, r, r);
+			if (single.GetComponent<Simplex0>().is_halo_shown) {
+				HList[System.Convert.ToInt32(single.name)].GetComponent<MeshRenderer>().material = halo_shown;
+			}
+			else {
+				HList[System.Convert.ToInt32(single.name)].GetComponent<MeshRenderer>().material = hidden;
 			}
 		}
 	}

@@ -281,8 +281,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1723585590}
   - component: {fileID: 1723585591}
-  - component: {fileID: 1723585593}
-  - component: {fileID: 1723585592}
   m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
@@ -326,41 +324,11 @@ MonoBehaviour:
     type: 2}
   threshold: 0.03
   r: 0.1
+  NoTriangles: 0
   halo_shown: {fileID: 2100000, guid: bebb52be1ae8cef458e98f6c96201edf, type: 2}
   cylinder_shown: {fileID: 2100000, guid: 641d3bf4b45f12f46a8da3e4ac9a2d29, type: 2}
   triangle_shown: {fileID: 2100000, guid: 2bb07b2ff390a6f4e8f91ab15710fa1f, type: 2}
   hidden: {fileID: 2100000, guid: 77d5eb354869ef443a6ce9b98dafbd42, type: 2}
---- !u!114 &1723585592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1723585589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cd7f650667659c4ba42901159423a30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  is_shown: 0
-  is_drawn: 0
-  length: 0
-  neighbors0: 
-  neighbors2: 
---- !u!114 &1723585593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1723585589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f070c721af171e24cb9df58f3f4947e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  is_halo_shown: 0
-  neighbors0: 
-  neighbors1: 
-  neighbors2: 
 --- !u!1 &1991763775
 GameObject:
   m_ObjectHideFlags: 0
