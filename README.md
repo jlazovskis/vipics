@@ -27,8 +27,11 @@ The scene ConfigurationSpace uses the default AvatarGrab scene found in Assets/O
 
 ### Other material
 
-* YouTube video demonstration of project
-* Poster for MCL expo
+* [Poster for MCL expo](https://github.com/jlazovskis/vipics/blob/master/MCL-2019-poster.pdf)
+* [YouTube video demonstration of project](https://www.youtube.com/watch?v=0fR5UxImVpw)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=0fR5UxImVpw
+" target="_blank"><img src="http://img.youtube.com/vi/0fR5UxImVpw/0.jpg" 
+alt="VIPICS Tour" width="240" height="180" border="10" /></a>
 
 ### changelog
 
