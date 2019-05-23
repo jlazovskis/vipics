@@ -27,6 +27,7 @@ The scene ConfigurationSpace uses the default AvatarGrab scene found in Assets/O
 
 ### Other material
 
+* [MCL Project description](http://mcl.math.uic.edu/spring-2019-projects/#confspace)
 * [Poster for MCL expo](https://github.com/jlazovskis/vipics/blob/master/MCL-2019-poster.pdf)
 * [YouTube video demonstration of project](https://www.youtube.com/watch?v=0fR5UxImVpw)<br><br>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=0fR5UxImVpw
