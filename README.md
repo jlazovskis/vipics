@@ -2,7 +2,7 @@
 **V**isualizing and **I**nteracting with **P**aths **I**n **C**onfiguration **S**paces
 
 
-[Research Project Poster](MCL-2019-poster.png) 
+![Research Project Poster](MCL-2019-poster.png) 
 
 
 ## Purpose
