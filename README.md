@@ -1,10 +1,14 @@
 # vipics
 **V**isualizing and **I**nteracting with **P**aths **I**n **C**onfiguration **S**paces
 
+
+![Research Project Poster](MCL-2019-poster.png) 
+
+
 ## Purpose
 
 The goals of this project are:
-1. To create an environment in which paths in configuration spaces of R^3 can be visualized and interacted with. 
+1. To create an environment in which paths in configuration spaces of R^3 can be visualized and interacted with.
 2. To visualize the Vietoris-Rips and Cech simplicial complex constructions from elements of Conf_n(R^3).
 3. To visualize how such paths produce persistent homology modules.
 
@@ -31,7 +35,7 @@ The scene ConfigurationSpace uses the default AvatarGrab scene found in Assets/O
 * [Poster for MCL expo](https://github.com/jlazovskis/vipics/blob/master/MCL-2019-poster.pdf)
 * [YouTube video demonstration of project](https://www.youtube.com/watch?v=0fR5UxImVpw)<br><br>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=0fR5UxImVpw
-" target="_blank"><img src="http://img.youtube.com/vi/0fR5UxImVpw/0.jpg" 
+" target="_blank"><img src="http://img.youtube.com/vi/0fR5UxImVpw/0.jpg"
 alt="VIPICS Tour" width="240" height="180" border="10" /></a>
 
 ### changelog
